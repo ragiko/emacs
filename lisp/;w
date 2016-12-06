@@ -1,0 +1,75 @@
+(defparameter *small* 1)
+(defparameter *big* 1)
+
+(defun guess-my-number ()
+  (ash (+ *small* *big*) -1))
+
+(defun smaller ()
+  (setf *big* (1- (guess-my-number)))
+  (guess-my-number))
+
+(defun bigger ()
+    (setf *small* (1+ (guess-my-number)))
+    (guess-my-number))
+
+(labels ((a (n)
+	   (+ n 5))
+	 (b (n)
+	   (+ (a n) 6)))
+  (b 10))
+
+(if '()
+    'i-am-true
+    'i-am-false)
+
+
+(defun my-length (list)
+  (if list
+      (1+ (my-length (cdr list)))
+      0))
+
+
+(defun foo (&key (a "test"))
+  a)
+
+;; 12/2
+; マクロでswiftのラベルっぽくかきたい
+(defun foo (&key a)
+  (let ((b a))
+    (format t "a=~a" b)))
+(foo :a 10)
+
+(let ((counter 0))
+  (defun new-id () (incf counter))
+  (defun reset-id () (setq counter 0)))
+
+(defun make-adder (n)
+  #'(lambda (x) (+ x n)))
+(setq add2 (make-adder 2)
+      add5 (make-adder 5))
+
+(defparameter *foo* (lambda ()
+		      5))
+
+
+(defmacro let1 (var val &body body)
+  `(let ((,var ,val))
+     ,@body))
+
+(defun add (a b)
+  (let1 x (+ a b)
+    (format t "~a" x)
+    x))
+
+(defmacro split (val yes no)
+  `(if ,val
+       (let ((head (car ,val))
+	     (tail (cdr ,val)))
+	 ,yes)
+       ,no))
+
+;; 12/3
+(defun my-length (list)
+  (if list
+      (1+ (my-length (cdr list)))
+      0))
